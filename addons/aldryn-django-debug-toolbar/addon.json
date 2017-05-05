@@ -1,0 +1,6 @@
+{
+    "installed-apps": [
+        "aldryn_django_debug_toolbar"
+    ], 
+    "package-name": "aldryn-django-debug-toolbar"
+}
