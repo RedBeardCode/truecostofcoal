@@ -75,9 +75,7 @@ class Form(forms.BaseForm):
         initial=False,
         help_text=(
             'For example, http://example.com/ rather than '
-            'http://example.com/en/ if en (English) is the default language. '
-            'If multiple languages are configured, this option will be ignored '
-            'for Django versions prior to 1.10.'
+            'http://example.com/en/ if en (English) is the default language.'
         )
     )
 
@@ -129,7 +127,6 @@ class Form(forms.BaseForm):
         settings['DATABASES']['default'] = dj_database_url.parse(settings['DATABASE_URL'])
 
         settings['ROOT_URLCONF'] = env('ROOT_URLCONF', 'urls')
-        settings['ADDON_URLS'].append('aldryn_django.urls')
         settings['ADDON_URLS_I18N'].append('aldryn_django.i18n_urls')
 
         settings['WSGI_APPLICATION'] = 'wsgi.application'
@@ -159,13 +156,13 @@ class Form(forms.BaseForm):
                     'context_processors': [
                         'django.contrib.auth.context_processors.auth',
                         'django.contrib.messages.context_processors.messages',
-                        'django.core.context_processors.i18n',
-                        'django.core.context_processors.debug',
-                        'django.core.context_processors.request',
-                        'django.core.context_processors.media',
-                        'django.core.context_processors.csrf',
-                        'django.core.context_processors.tz',
-                        'django.core.context_processors.static',
+                        'django.template.context_processors.i18n',
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.template.context_processors.media',
+                        'django.template.context_processors.csrf',
+                        'django.template.context_processors.tz',
+                        'django.template.context_processors.static',
                         'aldryn_django.context_processors.debug',
                     ],
                     'loaders': loader_list_class([
@@ -288,23 +285,6 @@ class Form(forms.BaseForm):
             'django.middleware.security.SecurityMiddleware',
         )
 
-        # Add the debreach middlewares to counter CRIME/BREACH attacks.
-        # We always add it even if the GZipMiddleware is not enabled because
-        # we cannot assume that every upstream proxy implements a
-        # countermeasure itself.
-        s['RANDOM_COMMENT_EXCLUDED_VIEWS'] = set([])
-        if 'django.middleware.gzip.GZipMiddleware' in s['MIDDLEWARE_CLASSES']:
-            index = s['MIDDLEWARE_CLASSES'].index('django.middleware.gzip.GZipMiddleware') + 1
-        else:
-            index = 0
-        s['MIDDLEWARE_CLASSES'].insert(index, 'aldryn_django.middleware.RandomCommentExclusionMiddleware')
-        s['MIDDLEWARE_CLASSES'].insert(index, 'debreach.middleware.RandomCommentMiddleware')
-        if 'django.middleware.csrf.CsrfViewMiddleware' in s['MIDDLEWARE_CLASSES']:
-            s['MIDDLEWARE_CLASSES'].insert(
-                s['MIDDLEWARE_CLASSES'].index('django.middleware.csrf.CsrfViewMiddleware'),
-                'debreach.middleware.CSRFCryptMiddleware',
-            )
-
     def server_settings(self, settings, env):
         settings['PORT'] = env('PORT', 80)
         settings['BACKEND_PORT'] = env('BACKEND_PORT', 8000)
@@ -355,7 +335,7 @@ class Form(forms.BaseForm):
                     'stream': sys.stdout,
                 },
                 'null': {
-                    'class': 'django.utils.log.NullHandler',
+                    'class': 'logging.NullHandler',
                 },
             },
             'loggers': {
@@ -508,12 +488,7 @@ class Form(forms.BaseForm):
         settings['LOCALE_PATHS'] = [
             os.path.join(settings['BASE_DIR'], 'locale'),
         ]
-
-        if len(languages) <= 1:
-            settings['PREFIX_DEFAULT_LANGUAGE'] = not data['disable_default_language_prefix']
-        else:
-            # this is not supported for django versions < 1.10
-            settings['PREFIX_DEFAULT_LANGUAGE'] = True
+        settings['PREFIX_DEFAULT_LANGUAGE'] = not data['disable_default_language_prefix']
 
         if not settings['PREFIX_DEFAULT_LANGUAGE']:
             settings['MIDDLEWARE_CLASSES'].insert(
