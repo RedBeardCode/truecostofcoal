@@ -9,3 +9,5 @@ django-geojson
 nece
 django-crispy-forms
 ipython
+pytest
+pytest-django
