@@ -11,7 +11,7 @@ from stories.models import Story
 
 
 
-class StroyForm(ModelForm):
+class StoryForm(ModelForm):
     class Meta:
         fields = ['title', 'story', 'region', 'min_zoom']
         model = Story
@@ -22,6 +22,18 @@ class StroyForm(ModelForm):
     min_zoom = IntegerField()
     region = PolygonField(widget=OSMWidget(attrs={'display_raw': True}))
     
-    def save(self, commit=True):
-        return super(StroyForm, self).save(commit=commit)
+    def __init__(self, *arg, **kwargs):
+        self.__language = kwargs.pop('language', 'en')
+        super(StoryForm, self).__init__(*arg, **kwargs)
 
+    def set_translation(self, language):
+        self.instance.translate(
+            language,
+            title=self.cleaned_data['title'],
+            story=self.cleaned_data['story']
+        )
+
+    def save(self, commit=True):
+        ret_val = super(StoryForm, self).save(commit)
+        self.set_translation(self.__language)
+        return ret_val
