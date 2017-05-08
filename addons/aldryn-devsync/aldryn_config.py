@@ -16,8 +16,8 @@ class Form(forms.BaseForm):
         cloud_sync_key = env('CMSCLOUD_SYNC_KEY')
         credential_url = env('LIVERELOAD_CREDENTIAL_URL')
 
-        # if 'aldryn_snake.template_api.template_processor' not in settings['TEMPLATE_CONTEXT_PROCESSORS']:
-        #    settings['TEMPLATE_CONTEXT_PROCESSORS'].append('aldryn_snake.template_api.template_processor')
+        if 'aldryn_snake.template_api.template_processor' not in settings['TEMPLATE_CONTEXT_PROCESSORS']:
+            settings['TEMPLATE_CONTEXT_PROCESSORS'].append('aldryn_snake.template_api.template_processor')
 
         if cloud_sync_key and credential_url:
             settings['LIVERELOAD_CREDENTIAL_URL'] = credential_url
