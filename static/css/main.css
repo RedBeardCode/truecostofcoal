@@ -3,9 +3,29 @@ html, body{
 }
 #mapid{
     width: 100%;
-    height: 100%;
+    height: 80%;
 }
 
 .leaflet-container {
     background-color:rgba(255,0,0,0.0);
+}
+
+footer{
+    text-align: center;
+    font-size: 80%;
+    color: #999999;
+    vertical-align: middle;
+    margin-top: 20px;
+}
+#divio_logo{
+    height: 11px;
+}
+
+h1{
+    text-align: center;
+    font-family: "Love Ya Like A Sister";
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 5em;
+    font-weight: 400;
 }
