@@ -13,8 +13,11 @@ var map = L.map('mapid', {
 // var sw = map.unproject([0, max_height], 1);
 // var ne = map.unproject([max_width, 0], 1);
 // var layerbounds = new L.LatLngBounds(sw, ne);
+
+
+
 L.tileLayer(
-    'static/maps/{z}/map_{x}_{y}.png'
+    '/static/maps/{z}/map_{x}_{y}.png'
     ).addTo(map);
 var southWest = map.unproject([0, max_height], map.getMaxZoom());
 var northEast = map.unproject([max_width, 0], map.getMaxZoom());

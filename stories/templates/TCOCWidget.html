@@ -1,0 +1,39 @@
+<style type="text/css">
+    #id_region_map { width: 600px; height: 400px; }
+    #id_region_map .aligned label { float: inherit; }
+    #id_region_div_map { position: relative; vertical-align: top; float: left; }
+    #id_region { display: none; }
+
+</style>
+
+<div id="id_region_div_map">
+    <div id="id_region_map"></div>
+    <span class="clear_features"><a href="javascript:geodjango_region.clearFeatures()">Alles löschen</a></span>
+
+    <textarea id="id_region" class="vSerializedField required" cols="150" rows="10" name="region"></textarea>
+    <script type="text/javascript">
+        var map_options = {};
+
+var base_layer = new ol.layer.Tile({
+    source:  new ol.source.XYZ({
+        url:"/static/maps/{z}/map_{x}_{y}.png",
+        wrapX: false
+    })
+});
+
+        var options = {
+            base_layer: base_layer,
+            geom_name: 'Polygon',
+            id: 'id_region',
+            map_id: 'id_region_map',
+            map_options: map_options,
+            name: 'region',
+        };
+
+        options['default_lon'] = -16417450;
+        options['default_lat'] = 17924177;
+        options['default_zoom'] = 3;
+
+        var geodjango_region = new MapWidget(options);
+    </script>
+</div>

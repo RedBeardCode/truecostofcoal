@@ -6,9 +6,14 @@
 """
 from django.contrib.gis.forms import PolygonField, OSMWidget, Textarea
 from django.forms import ModelForm, CharField, IntegerField
+from django.template.loader import get_template
 
 from stories.models import Story
 
+class TCOCWidget(OSMWidget):
+    def render(self, name, value, attrs=None, renderer=None):
+        html = get_template('TCOCWidget.html')
+        return html.render()
 
 
 class StoryForm(ModelForm):
@@ -20,7 +25,7 @@ class StoryForm(ModelForm):
     title = CharField()
     story = CharField(widget=Textarea())
     min_zoom = IntegerField()
-    region = PolygonField(widget=OSMWidget(attrs={'display_raw': True}))
+    region = PolygonField(widget=TCOCWidget())
     
     def __init__(self, *arg, **kwargs):
         self.__language = kwargs.pop('language', 'en')

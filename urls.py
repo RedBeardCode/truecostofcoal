@@ -9,7 +9,7 @@ from stories.views import StoryCreateView
 urlpatterns = [
     # add your own patterns here
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
-    # url(r'^story/new$', StoryCreateView.as_view(), name='new_story'),
+    url(r'^story/new$', StoryCreateView.as_view(), name='new_story'),
     ] + aldryn_addons.urls.patterns() + i18n_patterns(
     # add your own i18n patterns here
     *aldryn_addons.urls.i18n_patterns()  # MUST be the last entry!
