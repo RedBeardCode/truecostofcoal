@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 
 # Create your views here.
-from django.core.urlresolvers import reverse
-from django.views.generic import CreateView
-
+from django.core.serializers import serialize
+from django.http import HttpResponse
+from django.views.generic import CreateView, TemplateView
+from braces.views import AjaxResponseMixin
 from stories.forms import StoryForm
-
+from stories.models import Story
 
 
 class StoryCreateView(CreateView):
@@ -23,3 +24,16 @@ class StoryCreateView(CreateView):
         kwargs = super(StoryCreateView, self).get_form_kwargs()
         kwargs['language'] = self.request.LANGUAGE_CODE
         return kwargs
+
+
+class StoryView(AjaxResponseMixin, TemplateView):
+    template_name = "base.html"
+    def post_ajax(self, request, *args, **kwargs):
+        geojson = serialize(
+            'geojson',
+            Story.objects.all(),
+            geometry_field='region',
+            fields=('title', 'story')
+        )
+        return HttpResponse(geojson, content_type='application/json')
+

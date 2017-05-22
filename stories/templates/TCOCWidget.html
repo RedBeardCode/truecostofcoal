@@ -28,11 +28,13 @@ var base_layer = new ol.layer.Tile({
             map_id: 'id_region_map',
             map_options: map_options,
             name: 'region',
+            srid: 3857,
         };
 
-        options['default_lon'] = -16417450;
-        options['default_lat'] = 17924177;
+        options['default_lon'] = -14406669;
+        options['default_lat'] = 16718459;
         options['default_zoom'] = 3;
+
 
         var geodjango_region = new MapWidget(options);
     </script>

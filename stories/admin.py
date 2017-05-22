@@ -11,14 +11,13 @@ class StoryGeoAdmin(OSMGeoAdmin):
     map_template = 'story_admin.html'
 
     num_zoom = 7
-    # map_srid = 4326
+    map_srid = 3857
 
-    default_lon = -15000000
-    default_lat = 17500000
+    default_lon = -14406669
+    default_lat = 16718459
     default_zoom = 3
-    #max_extent = '-20000000, 18300000,  -8800000, 25000000 '
-    #max_resolution = '1.0339'
     point_zoom =  7
     #units = 'm'
+    debug = False
 
 admin.site.register(Story, StoryGeoAdmin)
