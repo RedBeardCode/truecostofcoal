@@ -36,6 +36,7 @@
             </p>
         </footer>
         {% block body_script%}
+            <script src="{% static "js/csrf_header.js"%}"></script>
             <script src="{% static "js/main.js"%}"></script>
         {% endblock %}
     {% endblock %}

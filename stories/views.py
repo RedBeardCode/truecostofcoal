@@ -31,7 +31,7 @@ class StoryView(AjaxResponseMixin, TemplateView):
     def post_ajax(self, request, *args, **kwargs):
         geojson = serialize(
             'geojson',
-            Story.objects.all(),
+            Story.objects.filter(min_zoom__lte=request.POST['zoomlevel']),
             geometry_field='region',
             fields=('title', 'story')
         )
