@@ -13,3 +13,15 @@
     </form>
 
 {% endblock %}
+
+{% block body_script%}
+    <script type="text/javascript">
+        function displayZoomLevel(){
+          var zoom = geodjango_region.map.getView().getZoom();
+          $('#id_min_zoom')[0].value = zoom;
+        };
+        geodjango_region.map.on("moveend", displayZoomLevel);
+
+        displayZoomLevel();
+    </script>
+{% endblock %}
