@@ -13,6 +13,7 @@ before_install:
 - docker-compose build
 - docker-compose create db
 - docker-compose start db
+- docker ps
 
 
 
