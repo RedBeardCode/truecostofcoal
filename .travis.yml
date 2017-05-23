@@ -8,12 +8,12 @@ python:
 services:
   - docker
 
-before_install:
+before_script:
 - pip install docker-compose
 - docker-compose build
 - docker-compose create db
 - docker-compose start db
-
+- sleep 20
 
 
 
