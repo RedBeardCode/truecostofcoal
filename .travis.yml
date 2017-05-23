@@ -13,9 +13,10 @@ before_install:
 - docker-compose build
 - docker-compose create db
 - docker-compose start db
-- docker ps
+
 
 
 
 script:
+- docker ps
 - docker-compose run web python manage.py test
