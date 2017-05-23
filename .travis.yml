@@ -1,0 +1,18 @@
+sudo: required
+
+language: python
+
+python:
+  - "3.6"
+
+services:
+  - docker
+
+before_install:
+- pip install docker-compose
+- docker-compose build
+
+
+
+script:
+- docker-compose run web python manage.py test

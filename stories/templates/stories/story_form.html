@@ -6,10 +6,22 @@
 {% endblock %}
 
 {% block body_content%}
-    <form method="post" xmlns="http://www.w3.org/1999/html">
+    <form id="form_story_new" method="post" xmlns="http://www.w3.org/1999/html">
         {% csrf_token %}
         {{ form|crispy }}
         <input type="submit">
     </form>
 
+{% endblock %}
+
+{% block body_script%}
+    <script type="text/javascript">
+        function displayZoomLevel(){
+          var zoom = geodjango_region.map.getView().getZoom();
+          $('#id_min_zoom')[0].value = zoom;
+        };
+        geodjango_region.map.on("moveend", displayZoomLevel);
+
+        displayZoomLevel();
+    </script>
 {% endblock %}

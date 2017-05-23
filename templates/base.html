@@ -8,10 +8,12 @@
      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
      <link rel="stylesheet" href="{% static "css/L.Control.MousePosition.css" %}" />
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
      <link rel="stylesheet" href="{% static "css/main.css" %}" />
 
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
      <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
      <script src="{% static "js/L.Control.MousePosition.js" %}"></script>
@@ -19,14 +21,27 @@
      {% endblock %}
 </head>
 <body>
+    {% block title %}
+        <h1 id="title">The True Cost of Coal</h1>
+    {% endblock %}
     {% block body %}
         {% block body_content %}
              <div id="mapid"></div>
         {% endblock %}
+        <footer>
+            <p>Hosting is thankfully sponsored by
+                <a href="http://www.divio.com">
+                    <img id="divio_logo" src="{% static "img/divio.png" %}" alt="Divio">
+                </a>
+            </p>
+        </footer>
         {% block body_script%}
+            <script src="{% static "js/csrf_header.js"%}"></script>
             <script src="{% static "js/main.js"%}"></script>
         {% endblock %}
     {% endblock %}
+
 </body>
+
 
 </html>

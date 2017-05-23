@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import ugettext_lazy as _
+
 INSTALLED_ADDONS = [
     # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
     'aldryn-addons',
@@ -26,7 +28,7 @@ INSTALLED_APPS.extend([
 
 MIDDLEWARE_CLASSES.extend([
     # add your own middlewares here
-    #'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ])
 
 
@@ -44,4 +46,9 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+LANGUAGES =  [
+    ('de', _('German')),
+    ('en', _('English')),
 ]
