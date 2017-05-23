@@ -11,6 +11,7 @@ services:
 before_install:
 - pip install docker-compose
 - docker-compose build
+- docker-compose create db
 - docker-compose start db
 
 
