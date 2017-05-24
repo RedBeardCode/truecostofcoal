@@ -14,8 +14,7 @@ before_script:
 - docker-compose create db
 - docker-compose start db
 - sleep 20
-- docker-compose run db createdb db
-- docker-compose run db psql -d db -c "CREATE EXTENSION postgis;"
+- docker exec truecostofcoal_db_1 createdb -U postgres ttt;psql -U postgres -d ttt -c "CREATE EXTENSION postgis;"
 - docker-compose run web python manage.py makemigrations 
 - docker-compose run web python manage.py migrate
 
