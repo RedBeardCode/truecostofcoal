@@ -25,4 +25,5 @@ after_success:
        $(npm bin)/set-up-ssh --key "$encrypted_1977bc1ec2e9_key" \
                              --iv "$encrypted_1977bc1ec2e9_iv" \
                              --path-encrypted-key ".travis/github_deploy_key.enc"
-  - git push git@git.divio.com:truecostofcoal.git $TRAVIS_BRANCH
+  - git remote add divio git@git.divio.com:truecostofcoal.git
+  - git push divio $TRAVIS_BRANCH
