@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import CreateView, TemplateView
+import django.contrib.auth.view as auth_views
 from braces.views import AjaxResponseMixin
 from stories.forms import StoryForm
 from stories.models import Story
@@ -36,4 +37,18 @@ class StoryView(AjaxResponseMixin, TemplateView):
             fields=('title', 'story')
         )
         return HttpResponse(geojson, content_type='application/json')
+
+
+
+def login(request, *args, **kwargs):
+    """
+    Displays the login form with 'Remember Me' checkbox and handles the login
+    action.
+    """
+    if request.method == 'POST':
+        if not request.POST.get('remember', None):
+            request.session.set_expiry(0)
+
+    return auth_views.login(request, *args, template_name='login.html',
+                            **kwargs)
 

@@ -52,3 +52,7 @@ LANGUAGES =  [
     ('de', _('German')),
     ('en', _('English')),
 ]
+
+LOGIN_URL = 'tcoc_login'
+LOGOUT_URL = 'tcoc_logout'
+LOGIN_REDIRECT_URL = '/'
