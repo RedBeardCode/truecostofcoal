@@ -1,5 +1,6 @@
 sudo: required
 language: python
+addons: ssh_known_hosts: git.divio.com
 python:
 - '3.6'
 services:
