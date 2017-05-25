@@ -1,13 +1,9 @@
 sudo: required
-
 language: python
-
 python:
-  - "3.6"
-
+- '3.6'
 services:
-  - docker
-
+- docker
 before_script:
 - pip install docker-compose
 - docker-compose build
@@ -19,7 +15,14 @@ before_script:
 - docker exec truecostofcoal_db_1 psql -U postgres -d db -c "CREATE EXTENSION postgis;"
 - docker-compose run web python manage.py makemigrations
 - docker-compose run web python manage.py migrate
-
 script:
 - docker ps
 - docker-compose run web python manage.py test
+
+after_success:
+  - |
+
+       $(npm bin)/set-up-ssh --key "$encrypted_1977bc1ec2e9_key" \
+                             --iv "$encrypted_1977bc1ec2e9_iv" \
+                             --path-encrypted-key ".travis/github_deploy_key.enc"
+  - git push git@git.divio.com:truecostofcoal.git $TRAVIS_BRANCH
