@@ -31,10 +31,10 @@ after_success:
   - git remote add divio git@git.divio.com:truecostofcoal.git
   - git push divio $TRAVIS_BRANCH
   - divio login $DIVIO_TOKEN
-  - 'if [${TRAVIS_BRANCH} = "master"]; then
+  - 'if [ ${TRAVIS_BRANCH} = "master" ]; then
        divio project deploy live;
      fi'
 
-  - 'if [${TRAVIS_BRANCH} = "develop"]; then
+  - 'if [ ${TRAVIS_BRANCH} = "develop" ]; then
        divio project deploy test;
      fi'
