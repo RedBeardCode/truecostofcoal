@@ -8,6 +8,7 @@ services:
 - docker
 before_script:
 - pip install docker-compose
+- pip install divio-cli
 - docker-compose build
 - docker-compose create db
 - docker-compose start db
@@ -29,3 +30,11 @@ after_success:
                              --path-encrypted-key ".travis/github_deploy_key.enc"
   - git remote add divio git@git.divio.com:truecostofcoal.git
   - git push divio $TRAVIS_BRANCH
+  - divio login $DIVIO_TOKEN
+  - 'if [${TRAVIS_BRANCH} = "master"]; then
+       divio project deploy live;
+     fi'
+
+  - 'if [${TRAVIS_BRANCH} = "develop"]; then
+       divio project deploy test;
+     fi'
