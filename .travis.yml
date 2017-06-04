@@ -22,4 +22,4 @@ before_script:
 
 script:
 - docker ps
-- docker-compose run web python manage.py test
+- pytest

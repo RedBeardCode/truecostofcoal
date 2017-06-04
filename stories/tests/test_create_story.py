@@ -4,6 +4,7 @@
 """
 Testing the story creation
 """
+from django.contrib.auth import get_user_model
 from django.test import RequestFactory, mock
 
 from stories.forms import StoryForm
@@ -13,20 +14,22 @@ from stories.views import StoryCreateView
 
 class LanguageRequestFactory(RequestFactory):
 
-    def __init__(self, language, *args, **kwargs):
+    def __init__(self, language, user, *args, **kwargs):
         self.__language = language
+        self.user = user
         super(LanguageRequestFactory, self).__init__(*args, **kwargs)
 
     def request(self, **request):
         request = super(LanguageRequestFactory, self).request(**request)
         request.LANGUAGE_CODE = self.__language
+        request.user = self.user
         return request
 
 
 class TestStoryCreation(object):
 
-    def test_render_view(self):
-        request = LanguageRequestFactory('en').get('/story/new')
+    def test_render_view(self, admin_user):
+        request = LanguageRequestFactory('en', admin_user).get('/story/new')
         response = StoryCreateView.as_view()(request)
         assert response.status_code == 200
         assert 'stories/story_form.html' in response.template_name
@@ -38,8 +41,8 @@ class TestStoryCreation(object):
 
 
     @mock.patch('stories.models.Story.save', mock.MagicMock(name='save'))
-    def test_submit_data(self):
-        request = LanguageRequestFactory('en').post(
+    def test_submit_data(self, admin_user):
+        request = LanguageRequestFactory('en', admin_user).post(
             '/story/view',
             {
                 'title': 'test_title',
@@ -63,9 +66,9 @@ class TestStoryCreation(object):
     @mock.patch('stories.models.Story.save', mock.MagicMock(name='save'))
     @mock.patch('stories.forms.StoryForm.set_translation',
                 mock.MagicMock(name='set_translation'))
-    def test_from_language(self):
+    def test_from_language(self, admin_user):
         for i, lang in enumerate(['en', 'de', 'es']):
-            request = LanguageRequestFactory(lang).post(
+            request = LanguageRequestFactory(lang, admin_user).post(
                 '/story/view',
                 {
                     'title': 'test_title',

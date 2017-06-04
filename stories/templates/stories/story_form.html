@@ -3,9 +3,13 @@
 
 {% block head_media %}
     {{ form.media }}
+
 {% endblock %}
 
 {% block body_content%}
+    <div id="logout_link">
+        <a class="fa fa-sign-out fa-fw" href="{% url "tcoc_logout" %}">Logout</a>
+    </div>
     <form id="form_story_new" method="post" xmlns="http://www.w3.org/1999/html">
         {% csrf_token %}
         {{ form|crispy }}
