@@ -4,26 +4,14 @@
 """
 Testing the story creation
 """
-from django.contrib.auth import get_user_model
-from django.test import RequestFactory, mock
+from django.test import  mock
 
 from stories.forms import StoryForm
 from stories.models import Story
+from stories.tests.language_request import LanguageRequestFactory
 from stories.views import StoryCreateView
 
 
-class LanguageRequestFactory(RequestFactory):
-
-    def __init__(self, language, user, *args, **kwargs):
-        self.__language = language
-        self.user = user
-        super(LanguageRequestFactory, self).__init__(*args, **kwargs)
-
-    def request(self, **request):
-        request = super(LanguageRequestFactory, self).request(**request)
-        request.LANGUAGE_CODE = self.__language
-        request.user = self.user
-        return request
 
 
 class TestStoryCreation(object):
