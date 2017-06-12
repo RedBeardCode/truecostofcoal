@@ -9,6 +9,7 @@ https://control.divio.com/api/v1/apps/serve/aldryn-django-debug-toolbar/1.5.0/5e
 nece
 django-crispy-forms
 django-braces
+django-invitations
 ipython
 pytest
 pytest-django

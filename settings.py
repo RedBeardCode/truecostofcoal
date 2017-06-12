@@ -23,6 +23,8 @@ INSTALLED_APPS.extend([
     # add your project specific apps here
     'nece',
     'crispy_forms',
+    'invitations',
+    'user_invitation',
     'stories',
 ])
 
@@ -56,3 +58,8 @@ LANGUAGES =  [
 LOGIN_URL = 'tcoc_login'
 LOGOUT_URL = 'tcoc_logout'
 LOGIN_REDIRECT_URL = '/'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCEPT_INVITE_AFTER_SIGNUP=True

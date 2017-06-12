@@ -2,14 +2,19 @@
 from __future__ import unicode_literals
 
 # Create your views here.
+from django.contrib.auth import get_user_model, login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
-from django.http import HttpResponse
-from django.views.generic import CreateView, TemplateView
+from django.http import HttpResponse, Http404
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView, FormView
 from braces.views import AjaxResponseMixin
+from invitations.views import Invitation, AcceptInvite
+
 from stories.forms import StoryForm
 from stories.models import Story
-
 
 class StoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'stories/story_form.html'
