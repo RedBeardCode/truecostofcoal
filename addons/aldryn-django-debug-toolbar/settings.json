@@ -1,3 +1,4 @@
 {
-    "enable_debug_toolbar": true
+    "enable_debug_toolbar": true, 
+    "toolbar_middleware_position": "top"
 }
