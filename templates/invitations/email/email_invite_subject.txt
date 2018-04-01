@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Einladung zur {{ site_name }}{% endblocktrans %}
+{% blocktrans %}Invitation to {{ site_name }}{% endblocktrans %}
 {% endautoescape %}

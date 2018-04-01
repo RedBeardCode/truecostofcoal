@@ -2,20 +2,17 @@
 {% autoescape off %}
 {% blocktrans %}
 
-Hallo,
+Hello,
 
-Damit Sie immer einen guten Überblick über den Projektfortschritt haben, habe ich
-Sie ({{ email }}) zu meinen Zeitverwaltungsportal {{ site_name }} eingeladen.
+You {{ email }} have been invited to  {{ site_name }} to add new stories
+to the wonderful True Cost of Coal banner.
 
-Um die Einladung abzuschliessen folgen die bitte diesem Link {{ invite_url }}
-und legen einen Benutzernamen und ein Passwort fest.
+Please follow the the link {{ invite_url }} and don't hesitate to ask question
+if you don't know how it works.
 
-Mit freundlichen Grüßen,
-
+Best regards,
 {{ user.get_full_name }}
 
-RedBeardCode
-URL www.red-beard-code.de
 
 
 {% endblocktrans %}

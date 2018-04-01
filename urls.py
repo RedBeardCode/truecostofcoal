@@ -5,8 +5,8 @@ import aldryn_addons.urls
 from django.contrib.auth.views import LogoutView, LoginView
 
 
-from stories.views import StoryCreateView, StoryView, SendInvite
-from user_invitation.views import CustomerAcceptInvite, CustomerSignUpView
+from stories.views import StoryCreateView, StoryView
+from user_invitation.views import CustomerAcceptInvite, CustomerSignUpView, SendInvite
 from user_invitation.views import show_404
 
 urlpatterns = [

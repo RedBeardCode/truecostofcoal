@@ -20,6 +20,7 @@
                     <form role="form" method="POST" accept-charset="utf-8">
                         {% csrf_token %}
                         {{ form|crispy }}
+                        <div class="form-group">{{ success_message }}</div>
                         <input class="btn btn-lg btn-success btn-block" type="submit" value="Send Invitation"/>
                     </form>
                 </div>
