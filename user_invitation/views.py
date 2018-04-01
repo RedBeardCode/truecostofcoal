@@ -7,6 +7,12 @@ from django.views.generic import FormView
 from invitations.views import AcceptInvite, Invitation
 
 
+
+#TODO: Cleanup, Pylint/Pylama
+#TODO: Nice templates
+#TODO: Invite_button, USER Dashboard or area
+#TODO: Logout icon
+
 def show_404(request):
     raise Http404()
 

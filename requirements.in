@@ -10,6 +10,7 @@ nece
 django-crispy-forms
 django-braces
 django-invitations
+django-extensions
 ipython
 pytest
 pytest-django

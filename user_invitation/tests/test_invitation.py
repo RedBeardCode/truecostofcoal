@@ -1,7 +1,4 @@
 import re
-from django.contrib.messages.storage.base import BaseStorage
-from django.http import QueryDict
-from django.test import TestCase, RequestFactory
 
 # Create your tests here.
 from invitations.views import SendInvite
@@ -9,10 +6,8 @@ from invitations.views import SendInvite
 from random import randint
 
 from django.core import mail
-from django.contrib.messages import constants as messages
 from invitations.models import Invitation
 
-from user_invitation.views import CustomerAcceptInvite
 
 
 class TestUserInvitationBackEnd:

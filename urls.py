@@ -5,12 +5,13 @@ import aldryn_addons.urls
 from django.contrib.auth.views import LogoutView, LoginView
 
 
-from stories.views import StoryCreateView, StoryView
+from stories.views import StoryCreateView, StoryView, SendInvite
 from user_invitation.views import CustomerAcceptInvite, CustomerSignUpView
 from user_invitation.views import show_404
 
 urlpatterns = [
     # add your own patterns here
+    url(r'^invitations/send-invite/$', SendInvite.as_view(), name='send-invite'),
     url(r'^invitations/accept-invite/(?P<key>\w+)/?$',
         CustomerAcceptInvite.as_view(), name='accept-invite'),
     url(r'^invitations/', include('invitations.urls',
