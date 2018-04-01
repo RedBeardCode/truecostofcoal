@@ -12,7 +12,6 @@ from invitations.views import AcceptInvite, Invitation
 
 
 #TODO: Cleanup, Pylint/Pylama
-#TODO: Nice templates
 #TODO: Invite_button, USER Dashboard or area
 #TODO: Logout icon
 from user_invitation.forms import InviteForm
