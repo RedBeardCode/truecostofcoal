@@ -1,0 +1,21 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}
+
+Hello,
+
+You {{ email }} have been invited to  {{ site_name }} to add new stories
+to the wonderful True Cost of Coal banner.
+
+Please follow the the link
+{{ invite_url }}
+and don't hesitate to ask question
+if you don't know how it works.
+
+Best regards,
+{{ user.get_full_name }}
+
+
+
+{% endblocktrans %}
+{% endautoescape %}

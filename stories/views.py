@@ -2,15 +2,17 @@
 from __future__ import unicode_literals
 
 # Create your views here.
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import CreateView, TemplateView
 from braces.views import AjaxResponseMixin
+
 from stories.forms import StoryForm
 from stories.models import Story
 
 
-class StoryCreateView(CreateView):
+class StoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'stories/story_form.html'
     form_class = StoryForm
 
@@ -36,4 +38,5 @@ class StoryView(AjaxResponseMixin, TemplateView):
             fields=('title', 'story')
         )
         return HttpResponse(geojson, content_type='application/json')
+
 

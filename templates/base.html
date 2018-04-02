@@ -16,8 +16,8 @@
      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
      <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-     <script src="{% static "js/L.Control.MousePosition.js" %}"></script>
      {% block head_media %}
+              <script src="{% static "js/L.Control.MousePosition.js" %}"></script>
      {% endblock %}
 </head>
 <body>
@@ -29,11 +29,21 @@
              <div id="mapid"></div>
         {% endblock %}
         <footer>
-            <p>Hosting is thankfully sponsored by
+	{% block login %}
+	<div class="storteller">
+		{% if user.is_authenticated %}
+			<a id="invite_link" href="{% url 'send-invite' %}">Invite new storyteller</a>
+			<a href="{% url 'tcoc_logout' %}">Logout</a>
+		{% else %}
+			<a href="{% url 'tcoc_login' %}">Storyteller login</a>
+		{% endif %}
+	</div>
+	{% endblock %}
+            <div>Hosting is thankfully sponsored by
                 <a href="http://www.divio.com">
                     <img id="divio_logo" src="{% static "img/divio.png" %}" alt="Divio">
                 </a>
-            </p>
+            </div>
         </footer>
         {% block body_script%}
             <script src="{% static "js/csrf_header.js"%}"></script>
