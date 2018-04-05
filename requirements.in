@@ -1,6 +1,6 @@
 # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
 https://control.divio.com/api/v1/apps/serve/aldryn-addons/1.0.2/24f5d1c8-66fe-43b2-a540-17d61045a72b/aldryn-addons-1.0.2.tar.gz#egg=aldryn-addons==1.0.2
-https://control.divio.com/api/v1/apps/serve/aldryn-django/1.11.5.2/bf27e17e-a895-4d25-b18c-bf2cedb2cd87/aldryn-django-1.11.5.2.tar.gz#egg=aldryn-django==1.11.5.2
+https://control.divio.com/api/v1/apps/serve/aldryn-django/1.11.11.1/002e1533-c0b2-41c6-9384-60594e7afeed/aldryn-django-1.11.11.1.tar.gz#egg=aldryn-django==1.11.11.1
 https://control.divio.com/api/v1/apps/serve/aldryn-sso/1.1.16/dbe0c45a-c981-4beb-8624-b0d2c4196aa0/aldryn-sso-1.1.16.tar.gz#egg=aldryn-sso==1.1.16
 https://control.divio.com/api/v1/apps/serve/aldryn-devsync/1.1.4/a71c18c8-4738-497c-a3da-46ab59106ab8/aldryn-devsync-1.1.4.tar.gz#egg=aldryn-devsync==1.1.4
 https://control.divio.com/api/v1/apps/serve/aldryn-django-debug-toolbar/1.8.0.3/2ba31e17-e62b-483e-a581-1e10a65b3dee/aldryn-django-debug-toolbar-1.8.0.3.tar.gz#egg=aldryn-django-debug-toolbar==1.8.0.3
