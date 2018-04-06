@@ -42,8 +42,7 @@ h1{
     min-width: 600px;
 }
 
-#logout_link{
-    position: absolute;
-    right: 10px;
-    top: 10px;
+#invite_link{
+    padding-right: 40px;
 }
+

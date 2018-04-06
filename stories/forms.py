@@ -5,10 +5,12 @@
 
 """
 from django.contrib.gis.forms import PolygonField, OSMWidget, Textarea
-from django.forms import ModelForm, CharField, IntegerField
+from django.forms import ModelForm, CharField, IntegerField, EmailField, Form, TextInput
 from django.template.loader import get_template
 
 from stories.models import Story
+
+
 
 class TCOCWidget(OSMWidget):
     def render(self, name, value, attrs=None, renderer=None):
