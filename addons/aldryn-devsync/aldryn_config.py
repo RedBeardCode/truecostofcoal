@@ -7,6 +7,12 @@ from aldryn_client import forms
 
 
 class Form(forms.BaseForm):
+    enable_livereload = forms.CheckboxField(
+        'Enable Livereload',
+        required=False,
+        initial=False,
+        help_text='Auto reloads the website on changes made in local development.'
+    )
 
     def to_settings(self, data, settings):
         import django
@@ -52,4 +58,6 @@ class Form(forms.BaseForm):
         settings['LAST_BOILERPLATE_COMMIT'] = env('LAST_BOILERPLATE_COMMIT')
         settings['SYNC_CHANGED_FILES_URL'] = env('SYNC_CHANGED_FILES_URL')
         settings['SYNC_CHANGED_FILES_SIGNATURE_MAX_AGE'] = 60  # seconds
+
+        settings['ALDRYN_DEVSYNC_ENABLE_LIVERELOAD'] = data['enable_livereload']
         return settings

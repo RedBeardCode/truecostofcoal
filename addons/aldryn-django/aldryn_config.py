@@ -78,8 +78,17 @@ class Form(forms.BaseForm):
             'http://example.com/en/ if en (English) is the default language.'
         )
     )
+    session_timeout = forms.NumberField(
+        'Timeout for users session, in seconds.',
+        required=False,
+        initial=(60 * 60 * 24 * 7 * 2),
+        help_text=(
+            'By default it\'s two weeks (Django default).'
+        ),
+    )
 
     def to_settings(self, data, settings):
+        import django_cache_url
         import dj_database_url
         import warnings
         from functools import partial
@@ -115,6 +124,8 @@ class Form(forms.BaseForm):
                 ),
                 RuntimeWarning,
             )
+        settings['DATABASES']['default'] = dj_database_url.parse(settings['DATABASE_URL'])
+
         if not settings['CACHE_URL']:
             settings['CACHE_URL'] = 'locmem://'
             warnings.warn(
@@ -123,8 +134,7 @@ class Form(forms.BaseForm):
                 ),
                 RuntimeWarning,
             )
-
-        settings['DATABASES']['default'] = dj_database_url.parse(settings['DATABASE_URL'])
+        settings['CACHES']['default'] = django_cache_url.parse(settings['CACHE_URL'])
 
         settings['ROOT_URLCONF'] = env('ROOT_URLCONF', 'urls')
         settings['ADDON_URLS_I18N'].append('aldryn_django.i18n_urls')
@@ -202,7 +212,6 @@ class Form(forms.BaseForm):
         self.logging_settings(settings, env=env)
         # Order matters, sentry settings rely on logging being configured.
         self.sentry_settings(settings, env=env)
-        self.cache_settings(settings, env=env)
         self.storage_settings_for_media(settings, env=env)
         self.storage_settings_for_static(data, settings, env=env)
         self.email_settings(data, settings, env=env)
@@ -272,6 +281,8 @@ class Form(forms.BaseForm):
             'SECURE_PROXY_SSL_HEADER',
             ('HTTP_X_FORWARDED_PROTO', 'https')
         )
+        s['SESSION_COOKIE_AGE'] = env('SESSION_COOKIE_AGE', data.get('session_timeout') or 60 * 60 * 24 * 7 * 2)
+
         # SESSION_COOKIE_HTTPONLY and SECURE_FRAME_DENY must be False for CMS
         # SESSION_COOKIE_HTTPONLY is handled by
         #   django.contrib.sessions.middleware.SessionMiddleware
@@ -288,27 +299,8 @@ class Form(forms.BaseForm):
     def server_settings(self, settings, env):
         settings['PORT'] = env('PORT', 80)
         settings['BACKEND_PORT'] = env('BACKEND_PORT', 8000)
-        settings['ENABLE_NGINX'] = env('ENABLE_NGINX', False)
-        settings['ENABLE_PAGESPEED'] = env(
-            'ENABLE_PAGESPEED',
-            env('PAGESPEED', False),
-        )
         settings['STATICFILES_DEFAULT_MAX_AGE'] = env(
-            'STATICFILES_DEFAULT_MAX_AGE',
-            # Keep BROWSERCACHE_MAX_AGE for backwards compatibility
-            env('BROWSERCACHE_MAX_AGE', 300),
-        )
-        settings['NGINX_CONF_PATH'] = env('NGINX_CONF_PATH')
-        settings['NGINX_PROCFILE_PATH'] = env('NGINX_PROCFILE_PATH')
-        settings['PAGESPEED_ADMIN_HTPASSWD_PATH'] = env(
-            'PAGESPEED_ADMIN_HTPASSWD_PATH',
-            os.path.join(
-                os.path.dirname(settings['NGINX_CONF_PATH']),
-                'pagespeed_admin.htpasswd',
-            )
-        )
-        settings['PAGESPEED_ADMIN_USER'] = env('PAGESPEED_ADMIN_USER')
-        settings['PAGESPEED_ADMIN_PASSWORD'] = env('PAGESPEED_ADMIN_PASSWORD')
+            'STATICFILES_DEFAULT_MAX_AGE', 300)
         settings['DJANGO_WEB_WORKERS'] = env('DJANGO_WEB_WORKERS', 3)
         settings['DJANGO_WEB_MAX_REQUESTS'] = env('DJANGO_WEB_MAX_REQUESTS', 500)
         settings['DJANGO_WEB_TIMEOUT'] = env('DJANGO_WEB_TIMEOUT', 120)
@@ -367,17 +359,15 @@ class Form(forms.BaseForm):
 
         if sentry_dsn:
             settings['INSTALLED_APPS'].append('raven.contrib.django')
-            settings['RAVEN_CONFIG'] = {'dsn': sentry_dsn}
+            settings['RAVEN_CONFIG'] = {
+                'dsn': sentry_dsn,
+                'release': env('GIT_COMMIT', 'develop'),
+                'environment': env('STAGE', 'local'),
+            }
             settings['LOGGING']['handlers']['sentry'] = {
                 'level': 'ERROR',
                 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             }
-
-    def cache_settings(self, settings, env):
-        import django_cache_url
-        cache_url = env('CACHE_URL')
-        if cache_url:
-            settings['CACHES']['default'] = django_cache_url.parse(cache_url)
 
     def storage_settings_for_media(self, settings, env):
         import yurl
@@ -477,14 +467,32 @@ class Form(forms.BaseForm):
     def i18n_settings(self, data, settings, env):
         settings['ALL_LANGUAGES'] = list(settings['LANGUAGES'])
         settings['ALL_LANGUAGES_DICT'] = dict(settings['ALL_LANGUAGES'])
-        languages = [
-            (code, settings['ALL_LANGUAGES_DICT'][code])
-            for code in json.loads(data['languages'])
-        ]
-        settings['LANGUAGE_CODE'] = languages[0][0]
+
         settings['USE_L10N'] = True
         settings['USE_I18N'] = True
-        settings['LANGUAGES'] = languages
+
+        def language_codes_to_tuple(codes):
+            return [
+                (code, settings['ALL_LANGUAGES_DICT'][code])
+                for code in codes
+            ]
+        langs_from_env = env('LANGUAGES', None)
+        lang_codes_from_env = env('LANGUAGE_CODES', None)
+        langs_from_form = json.loads(data['languages'])
+
+        if langs_from_env:
+            settings['LANGUAGES'] = langs_from_env
+        elif lang_codes_from_env:
+            settings['LANGUAGES'] = language_codes_to_tuple(lang_codes_from_env)
+        else:
+            settings['LANGUAGES'] = language_codes_to_tuple(langs_from_form)
+
+        lang_code_from_env = env('LANGUAGE_CODE', None)
+        if lang_code_from_env:
+            settings['LANGUAGE_CODE'] = lang_code_from_env
+        else:
+            settings['LANGUAGE_CODE'] = settings['LANGUAGES'][0][0]
+
         settings['LOCALE_PATHS'] = [
             os.path.join(settings['BASE_DIR'], 'locale'),
         ]

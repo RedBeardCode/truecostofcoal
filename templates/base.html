@@ -29,6 +29,16 @@
              <div id="mapid"></div>
         {% endblock %}
         <footer>
+	{% block login %}
+	<div class="storteller">
+		{% if user.is_authenticated %}
+			<a id="invite_link" href="{% url 'send-invite' %}">Invite new storyteller</a>
+			<a href="{% url 'tcoc_logout' %}">Logout</a>
+		{% else %}
+			<a href="{% url 'tcoc_login' %}">Storyteller login</a>
+		{% endif %}
+	</div>
+	{% endblock %}
             <div>Hosting is thankfully sponsored by
                 <a href="http://www.divio.com">
                     <img id="divio_logo" src="{% static "img/divio.png" %}" alt="Divio">

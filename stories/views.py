@@ -7,6 +7,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.views.generic import CreateView, TemplateView
 from braces.views import AjaxResponseMixin
+
 from stories.forms import StoryForm
 from stories.models import Story
 
