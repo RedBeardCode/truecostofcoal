@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import dj_email_url
+from os import environ
 from django.utils.translation import ugettext_lazy as _
 
 INSTALLED_ADDONS = [
@@ -69,5 +71,5 @@ if 'EMAIL_BACKEND' in email_config:
     EMAIL_PORT = email_config['EMAIL_PORT']
     EMAIL_USE_TLS = email_config['EMAIL_USE_TLS']
     EMAIL_USE_SSL = email_config['EMAIL_USE_SSL']
-
+DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL', '')
 ACCEPT_INVITE_AFTER_SIGNUP=True
