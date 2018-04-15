@@ -26,3 +26,6 @@ Thumbs.db
 # pyharm
 .cache
 .idea
+
+#pytest
+.pytest_cache
