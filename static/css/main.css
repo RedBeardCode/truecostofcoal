@@ -42,7 +42,7 @@ h1{
     min-width: 600px;
 }
 
-#invite_link{
+#invite_link, #create_story{
     padding-right: 40px;
 }
 
